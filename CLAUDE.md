@@ -4,21 +4,40 @@
 
 ## What This Project Does
 
-SmartOps is a multi-agent task management backend powered by Claude. Five specialized agents — orchestrator, triage, scheduler, reporter, and escalation — each own a distinct responsibility and collaborate through a pluggable registry. The system can ingest raw task descriptions, classify them, assign them to team members, generate status reports, and detect blockers — all autonomously.
+SmartOps is a multi-agent task management system powered by Claude. Five specialized agents — orchestrator, triage, scheduler, reporter, and escalation — each own a distinct responsibility and collaborate through a pluggable registry. A FastAPI web layer exposes all functionality as REST endpoints with background job support for long-running agent calls.
 
 ## Quick Navigation
 
 | I want to... | Go to |
 |---|---|
+| Start the API server | `py -m uvicorn api.main:app --reload --port 8000` |
+| See all API routes | `http://localhost:8000/docs` |
 | See all agents | `agents/` |
 | Change an agent's behavior | `.claude/prompts/` |
 | Add a new agent | `docs/adding-agents.md` |
 | Add or change a tool | `tools/` |
-| Run the full demo | `python scripts/run_demo.py` |
-| Seed the database | `python scripts/seed_tasks.py` |
-| Run unit tests | `pytest tests/` |
-| Run evals | `python -m evals.triage_eval --verbose` |
+| Add an API endpoint | `api/routers/` |
+| Run the CLI demo | `py scripts/run_demo.py` |
+| Seed the database | `py scripts/seed_tasks.py` |
+| Run unit tests | `py -m pytest tests/` |
+| Run evals | `py -m evals.triage_eval --verbose` |
 | Use a slash command | `.claude/commands/` |
+
+## API Layer (`api/`)
+
+| File | Purpose |
+|---|---|
+| `api/main.py` | App factory, lifespan hook (bootstraps registry), CORS, router registration |
+| `api/schemas.py` | All HTTP request/response Pydantic models |
+| `api/job_store.py` | In-process async job registry for background agent runs |
+| `api/dependencies.py` | FastAPI `Depends` wrappers for `get_store()` and `get_job_store()` |
+| `api/routers/tasks.py` | `/tasks` — CRUD + escalation history |
+| `api/routers/agents.py` | `/agents` — trigger agents + poll job status |
+| `api/routers/system.py` | `/system` — health, capacity, sprint, velocity, overdue, blocked |
+
+**Background job pattern:** Agent endpoints return `202` immediately with a `job_id`. The agent runs in a `ThreadPoolExecutor` via `asyncio.run_in_executor()`. Poll `GET /agents/jobs/{job_id}` until `status` is `completed` or `failed`.
+
+**Tool functions return JSON strings** — always `json.loads()` before using in HTTP responses. The `api/routers/` files handle this at the boundary.
 
 ## Agent Map
 
@@ -42,14 +61,12 @@ pip install -r requirements.txt
 cp .env.example .env
 # Edit .env — add your ANTHROPIC_API_KEY
 
-# 3. Run the end-to-end demo
-python scripts/run_demo.py
+# 3. Start the API server
+py -m uvicorn api.main:app --reload --port 8000
+# Docs at http://localhost:8000/docs
 
-# 4. Or invoke agents individually
-python -c "
-from agents.triage_agent import TriageAgent
-print(TriageAgent().run('Triage all pending tasks'))
-"
+# 4. Or run the CLI demo
+py scripts/run_demo.py
 ```
 
 ## How to Add a New Agent
@@ -61,6 +78,8 @@ Full walkthrough in `docs/adding-agents.md`. Five-step summary:
 3. Register in `core/agent_registry.py` inside `_bootstrap()`
 4. Write tests in `tests/test_my_agent.py` (mock the Anthropic client)
 5. Write evals in `evals/my_agent_eval.py` with fixtures in `evals/fixtures/`
+
+To expose via HTTP, add a route to `api/routers/agents.py` following the same background-job pattern as the existing five endpoints.
 
 ## Key Patterns
 
@@ -74,20 +93,22 @@ Full walkthrough in `docs/adding-agents.md`. Five-step summary:
 
 **Thin orchestrator:** The `OrchestratorAgent` has zero domain logic. It routes to sub-agents. This makes every agent independently testable and swappable.
 
+**`POST /tasks` bypasses `tools/task_tools.create_task()`** — that tool hardcodes `status=TRIAGED` (for agent use). The HTTP endpoint constructs `Task` directly with `status=PENDING_TRIAGE`.
+
 ## Testing
 
 ```bash
-pytest tests/                           # All unit tests (agents are mocked — no API calls)
-pytest tests/test_task_store.py -v      # Task store CRUD
-pytest tests/test_triage_agent.py -v    # Triage agent with mock responses
+py -m pytest tests/                      # All unit tests (agents are mocked — no API calls)
+py -m pytest tests/test_task_store.py -v # Task store CRUD
+py -m pytest tests/test_triage_agent.py -v # Triage agent with mock responses
 ```
 
 ## Evals
 
 ```bash
-python -m evals.triage_eval --verbose       # Priority + category accuracy (>90%)
-python -m evals.escalation_eval --verbose   # Escalation detection accuracy (>90%)
-python -m evals.reporter_eval --verbose     # Report structure validity (>90%)
+py -m evals.triage_eval --verbose        # Priority + category accuracy (>90%)
+py -m evals.escalation_eval --verbose    # Escalation detection accuracy (>90%)
+py -m evals.reporter_eval --verbose      # Report structure validity (>90%)
 ```
 
 Evals make real API calls. CI blocks merges on agent/prompt changes if any eval regresses below 90%.
@@ -98,3 +119,4 @@ Evals make real API calls. CI blocks merges on agent/prompt changes if any eval 
 - Hardcode prompts as Python strings — they go in `.claude/prompts/`
 - Merge changes to `agents/` or `.claude/prompts/` without running evals
 - Share state between tests — use the `temp_db` fixture from `tests/conftest.py`
+- Call tool functions directly in HTTP responses without `json.loads()` first
