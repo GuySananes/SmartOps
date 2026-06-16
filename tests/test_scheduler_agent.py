@@ -3,9 +3,7 @@ from __future__ import annotations
 import json
 from unittest.mock import MagicMock, patch
 
-import pytest
-
-from core.models import Priority, Task, TaskStatus
+from core.models import Task, TaskStatus
 from core.task_store import TaskStore
 
 

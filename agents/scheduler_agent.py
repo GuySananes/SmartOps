@@ -16,7 +16,7 @@ class SchedulerAgent(BaseAgent):
         return [
             {
                 "name": "get_triaged_tasks",
-                "description": "Get all tasks with status 'triaged' that are ready to be scheduled.",
+                "description": "Get all tasks with status 'triaged' that are ready to be scheduled.",  # noqa: E501
                 "input_schema": {"type": "object", "properties": {}, "required": []},
             },
             {
@@ -32,7 +32,7 @@ class SchedulerAgent(BaseAgent):
             },
             {
                 "name": "get_team_capacity",
-                "description": "Get all team members with their current task load and available slots.",
+                "description": "Get all team members with their current task load and available slots.",  # noqa: E501
                 "input_schema": {"type": "object", "properties": {}, "required": []},
             },
             {

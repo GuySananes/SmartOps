@@ -3,7 +3,7 @@ from __future__ import annotations
 import json
 from collections import Counter
 
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends
 
 from api.dependencies import get_task_store
 from api.schemas import (

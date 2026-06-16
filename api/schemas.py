@@ -8,7 +8,6 @@ from pydantic import BaseModel, ConfigDict
 
 from core.models import Priority, TaskStatus
 
-
 # ---------------------------------------------------------------------------
 # Task schemas
 # ---------------------------------------------------------------------------

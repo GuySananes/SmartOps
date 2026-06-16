@@ -36,7 +36,7 @@ class EscalationAgent(BaseAgent):
                     "type": "object",
                     "properties": {
                         "task_id": {"type": "string"},
-                        "reason": {"type": "string", "description": "Why this task is being escalated"},
+                        "reason": {"type": "string", "description": "Why this task is being escalated"},  # noqa: E501
                     },
                     "required": ["task_id", "reason"],
                 },

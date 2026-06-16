@@ -16,12 +16,12 @@ class TriageAgent(BaseAgent):
         return [
             {
                 "name": "get_pending_tasks",
-                "description": "Retrieve all tasks with status 'pending_triage' that need classification.",
+                "description": "Retrieve all tasks with status 'pending_triage' that need classification.",  # noqa: E501
                 "input_schema": {"type": "object", "properties": {}, "required": []},
             },
             {
                 "name": "search_similar_tasks",
-                "description": "Search existing tasks by keyword to inform priority and category decisions.",
+                "description": "Search existing tasks by keyword to inform priority and category decisions.",  # noqa: E501
                 "input_schema": {
                     "type": "object",
                     "properties": {
@@ -50,7 +50,7 @@ class TriageAgent(BaseAgent):
                         },
                         "category": {
                             "type": "string",
-                            "enum": ["incident", "deployment", "feature", "bug", "chore", "research"],
+                            "enum": ["incident", "deployment", "feature", "bug", "chore", "research"],  # noqa: E501
                         },
                         "tags": {
                             "type": "array",

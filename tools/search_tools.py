@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import json
 from datetime import datetime, timedelta
+from typing import Any
 
 from core.models import TaskStatus
 from core.task_store import get_store
@@ -21,7 +22,7 @@ def search_similar_tasks(query: str) -> str:
 
 
 def get_team_capacity() -> str:
-    team = [
+    team: list[dict[str, Any]] = [
         {"name": "Alice Chen",   "role": "Backend Engineer",   "capacity": 5},
         {"name": "Bob Martinez", "role": "Frontend Engineer",  "capacity": 5},
         {"name": "Carol Kim",    "role": "DevOps Engineer",    "capacity": 4},

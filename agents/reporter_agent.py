@@ -16,7 +16,7 @@ class ReporterAgent(BaseAgent):
         return [
             {
                 "name": "query_tasks",
-                "description": "Query tasks with optional filters by status, priority, or date range.",
+                "description": "Query tasks with optional filters by status, priority, or date range.",  # noqa: E501
                 "input_schema": {
                     "type": "object",
                     "properties": {
@@ -33,7 +33,7 @@ class ReporterAgent(BaseAgent):
             },
             {
                 "name": "compute_velocity",
-                "description": "Compute team velocity: completed task count, by assignee, sprint total.",
+                "description": "Compute team velocity: completed task count, by assignee, sprint total.",  # noqa: E501
                 "input_schema": {"type": "object", "properties": {}, "required": []},
             },
             {

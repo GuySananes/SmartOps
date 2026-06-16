@@ -1,7 +1,5 @@
 from __future__ import annotations
 
-import pytest
-
 from core.models import Escalation, Priority, Task, TaskStatus
 from core.task_store import TaskStore
 

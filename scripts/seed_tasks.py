@@ -184,7 +184,7 @@ SEED_TASKS = [
     Task(
         id="t014",
         title="Deploy recommendation engine",
-        description="ML-powered product recommendations. Blocked on data team providing training dataset.",
+        description="ML-powered product recommendations. Blocked on data team providing training dataset.",  # noqa: E501
         priority=Priority.P1,
         status=TaskStatus.BLOCKED,
         category="deployment",
