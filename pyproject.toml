@@ -2,7 +2,7 @@
 name = "smartops"
 version = "0.1.0"
 description = "Multi-agent task management system powered by Claude"
-requires-python = ">=3.9"
+requires-python = ">=3.10"
 dependencies = [
     "anthropic>=0.40.0",
     "pydantic>=2.0.0",
@@ -18,14 +18,14 @@ dev = [
 ]
 
 [tool.ruff]
-target-version = "py39"
+target-version = "py310"
 line-length = 100
 
 [tool.ruff.lint]
 select = ["E", "F", "I", "N"]
 
 [tool.mypy]
-python_version = "3.9"
+python_version = "3.10"
 strict = true
 ignore_missing_imports = true
 

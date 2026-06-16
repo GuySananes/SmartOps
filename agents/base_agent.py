@@ -46,7 +46,7 @@ class BaseAgent(ABC):
             if response.stop_reason == "end_turn":
                 for block in response.content:
                     if hasattr(block, "text"):
-                        return block.text  # type: ignore[union-attr]
+                        return block.text
                 return ""
 
             if response.stop_reason == "tool_use":
@@ -54,11 +54,11 @@ class BaseAgent(ABC):
                 tool_results = []
                 for block in response.content:
                     if block.type == "tool_use":
-                        result = self._execute_tool(block.name, block.input)  # type: ignore[union-attr]
+                        result = self._execute_tool(block.name, block.input)
                         tool_results.append(
                             {
                                 "type": "tool_result",
-                                "tool_use_id": block.id,  # type: ignore[union-attr]
+                                "tool_use_id": block.id,
                                 "content": result,
                             }
                         )
