@@ -1,0 +1,74 @@
+[
+  {
+    "input_title": "Prod DB throwing 500s, all users affected",
+    "input_description": "The main database is returning 500 errors for all queries. No users can log in or access any data. Started 10 minutes ago. Revenue impact confirmed.",
+    "expected_priority": "P0",
+    "expected_category": "incident"
+  },
+  {
+    "input_title": "Update footer copyright year",
+    "input_description": "The copyright year in the footer still says 2024. Needs to be updated to 2025. Very minor, no rush.",
+    "expected_priority": "P3",
+    "expected_category": "chore"
+  },
+  {
+    "input_title": "Deploy auth service v2.1 to staging before Friday demo",
+    "input_description": "The new OAuth2 auth service needs to be deployed to staging before Friday's client demo. Includes a database migration that needs to be run first.",
+    "expected_priority": "P1",
+    "expected_category": "deployment"
+  },
+  {
+    "input_title": "Add CSV export to analytics dashboard",
+    "input_description": "Product request: users want to download their analytics data as a CSV file. Should cover the last 30 days. Estimated medium complexity.",
+    "expected_priority": "P2",
+    "expected_category": "feature"
+  },
+  {
+    "input_title": "Payment gateway 500 errors — revenue loss",
+    "input_description": "Stripe webhook processing is failing ~15% of the time. We are missing payment confirmations. Started 30 minutes ago. Estimated $2k/hr revenue impact.",
+    "expected_priority": "P0",
+    "expected_category": "incident"
+  },
+  {
+    "input_title": "Fix broken search pagination",
+    "input_description": "Search results page 2 and beyond return 0 results. Confirmed bug: the offset calculation is incorrect. Affects all users who search.",
+    "expected_priority": "P1",
+    "expected_category": "bug"
+  },
+  {
+    "input_title": "Research GraphQL vs REST for new public API",
+    "input_description": "We need to decide whether to build the new public API as GraphQL or REST. Requires a technical spike: evaluate both options, write a short report with a recommendation.",
+    "expected_priority": "P2",
+    "expected_category": "research"
+  },
+  {
+    "input_title": "Upgrade Python from 3.10 to 3.12 across all services",
+    "input_description": "Python 3.10 EOL is approaching. We need to upgrade all backend services to 3.12. This includes updating dependencies and running the full test suite.",
+    "expected_priority": "P2",
+    "expected_category": "chore"
+  },
+  {
+    "input_title": "Add dark mode to the dashboard",
+    "input_description": "Nice-to-have feature request from several users: a dark mode toggle for the main dashboard, with system preference detection.",
+    "expected_priority": "P3",
+    "expected_category": "feature"
+  },
+  {
+    "input_title": "XSS vulnerability in user comment field",
+    "input_description": "Security report: user-submitted comments are not properly sanitized. Malicious scripts can be injected via the comment form. Potential data exposure risk.",
+    "expected_priority": "P0",
+    "expected_category": "bug"
+  },
+  {
+    "input_title": "Write integration tests for checkout flow",
+    "input_description": "We have no end-to-end tests covering add-to-cart through payment confirmation. Need to add integration tests for the full checkout flow.",
+    "expected_priority": "P1",
+    "expected_category": "chore"
+  },
+  {
+    "input_title": "Implement rate limiting on public API endpoints",
+    "input_description": "The public API has no rate limiting. We're seeing abuse from bots hitting our endpoints thousands of times per minute. Need per-IP and per-key limits.",
+    "expected_priority": "P1",
+    "expected_category": "feature"
+  }
+]

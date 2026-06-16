@@ -1,0 +1,23 @@
+[
+  {
+    "scenario": "daily_report",
+    "report_type": "daily",
+    "prompt": "Generate a daily status report for today.",
+    "expected_sections": ["Summary", "Completed", "In Progress", "Blockers", "Velocity", "Next Priorities"],
+    "expected_contains": ["SmartOps", "Daily", "Report"]
+  },
+  {
+    "scenario": "weekly_report",
+    "report_type": "weekly",
+    "prompt": "Generate a weekly status report for this week.",
+    "expected_sections": ["Summary", "Completed", "Blockers", "Velocity"],
+    "expected_contains": ["SmartOps", "Weekly", "Report"]
+  },
+  {
+    "scenario": "sprint_report",
+    "report_type": "sprint",
+    "prompt": "Generate a sprint report for the current sprint.",
+    "expected_sections": ["Summary", "Velocity"],
+    "expected_contains": ["SmartOps", "Sprint", "Report"]
+  }
+]

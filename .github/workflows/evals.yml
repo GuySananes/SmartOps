@@ -1,0 +1,38 @@
+name: Evals
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - "agents/**"
+      - ".claude/prompts/**"
+      - "evals/**"
+
+jobs:
+  run-evals:
+    name: Run accuracy evals
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Triage eval
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: python -m evals.triage_eval --verbose
+
+      - name: Escalation eval
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: python -m evals.escalation_eval --verbose
+
+      - name: Reporter eval
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: python -m evals.reporter_eval --verbose

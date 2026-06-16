@@ -1,0 +1,62 @@
+[
+  {
+    "scenario": "overdue_p1",
+    "description": "P1 task that is 3 days past deadline",
+    "task": {
+      "id": "esc001",
+      "title": "Deploy recommendation engine",
+      "description": "ML-powered product recommendations",
+      "priority": "P1",
+      "status": "in_progress",
+      "assignee": "Alice Chen",
+      "deadline_offset_days": -3
+    },
+    "expected_escalated": true,
+    "expected_reason_contains": "overdue"
+  },
+  {
+    "scenario": "blocked_task",
+    "description": "Blocked task with no update",
+    "task": {
+      "id": "esc002",
+      "title": "GDPR compliance audit",
+      "description": "Quarterly GDPR audit blocked on legal",
+      "priority": "P1",
+      "status": "blocked",
+      "assignee": "Eva Petrov",
+      "deadline_offset_days": 1
+    },
+    "expected_escalated": true,
+    "expected_reason_contains": "blocked"
+  },
+  {
+    "scenario": "unassigned_p0",
+    "description": "P0 task with no owner",
+    "task": {
+      "id": "esc003",
+      "title": "SSL certificates expiring in 2 hours",
+      "description": "Production SSL certs about to expire",
+      "priority": "P0",
+      "status": "triaged",
+      "assignee": null,
+      "deadline_offset_days": 0
+    },
+    "expected_escalated": true,
+    "expected_reason_contains": "unassigned"
+  },
+  {
+    "scenario": "on_track",
+    "description": "Healthy P2 task, not overdue, not blocked",
+    "task": {
+      "id": "esc004",
+      "title": "Add dark mode",
+      "description": "Nice to have dark mode feature",
+      "priority": "P2",
+      "status": "in_progress",
+      "assignee": "Bob Martinez",
+      "deadline_offset_days": 5
+    },
+    "expected_escalated": false,
+    "expected_reason_contains": null
+  }
+]
